@@ -1,4 +1,5 @@
 let listaAmigos = []; // Array onde armazeno os nomes
+let amigosSorteados = []; // É um array extra para lembrar quais amigos já foram sorteados e evitar repetições.
 
 // Função da lista amigos, pois mais de uma vez, é necessario realizar a limpeza da lista atual
 
@@ -46,16 +47,26 @@ function sortearAmigo(){
         alert('Você não registrou nenhum amigo! ')
     }
 
+    else if(amigosSorteados.length == listaAmigos.length){
+        alert('Todos os nomes já foram sorteados.')
+        return;
+    }
     // Senão
 
     else{
         excluirAmigos() // Puxa a função excluirAmigos, para que só apareça o nome do ganhador
         let indiceAleatorio = Math.floor(Math.random() * listaAmigos.length); // Randoniza os nomes dentro do array listaAmigo
         
+        // Enquanto o nome que foi gerado estiver em amigos sorteados, vai continuar sorteando / enquanto o nome não estiver, quando todos estiverem dentro do amigosSorteados, acabou
+        while(amigosSorteados.includes(listaAmigos[indiceAleatorio])){
+            indiceAleatorio = Math.floor(Math.random() * listaAmigos.length);
+        }
+        amigosSorteados.push(listaAmigos[indiceAleatorio]); // Adiciona o amigo sorteado no array amigosSorteados para não repetir
+        console.log(amigosSorteados); // Para desenvolvedores 
+        
         let resultadoAmigoSecreto = document.getElementById('resultado'); // Puxa a UL resultado
-        resultadoAmigoSecreto.innerHTML = `O amigo secreto sorteado é ${listaAmigos[indiceAleatorio]}` // A UL até Então vazia, agora passa a ter o texto informando o vencedor
-    }
-
+        resultadoAmigoSecreto.innerHTML = `O amigo secreto sorteado é ${listaAmigos[indiceAleatorio]}`; // A UL até Então vazia, agora passa a ter o texto informando o vencedo
+    }   
     
 }
 
